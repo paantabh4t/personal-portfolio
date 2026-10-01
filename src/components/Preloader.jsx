@@ -8,6 +8,12 @@ const Preloader = () => {
     useEffect(() => {
         const handleLoad = () => setIsLoading(false);
 
+        // if the page already finished loading, hide the loader right away
+        if (document.readyState === "complete") {
+            handleLoad();
+            return;
+        }
+
         window.addEventListener("load", handleLoad);
 
         return () => window.removeEventListener("load", handleLoad);

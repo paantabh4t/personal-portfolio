@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import './Navbar.css'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaBars, FaTimes } from "react-icons/fa"
 
 
@@ -9,15 +9,21 @@ const Navbar = () => {
     const handleClick = () => setClick(!click);
 
     const [color, setColor] = useState(false);
-    const changeColor = () => {
-        if (window.scrollY >= 100) {
-            setColor(true);
-        } else {
-            setColor(false);
-        }
-    };
 
-    window.addEventListener("scroll", changeColor);
+    // add the scroll listener once, and remove it when the navbar goes away
+    useEffect(() => {
+        const changeColor = () => {
+            if (window.scrollY >= 100) {
+                setColor(true);
+            } else {
+                setColor(false);
+            }
+        };
+
+        window.addEventListener("scroll", changeColor);
+
+        return () => window.removeEventListener("scroll", changeColor);
+    }, []);
 
 
   return (
