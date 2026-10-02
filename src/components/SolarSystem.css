@@ -1,0 +1,235 @@
+/* The box that holds the Sun, orbits and planets.
+   Its height is set in SolarSystem.jsx (wide and short = tilted view). */
+.solar-system{
+    position: relative;
+    /* as wide as possible, but never taller than the screen
+       (the box is about 2.2 times wider than it is tall) */
+    width: min(100%, calc((100svh - 5rem) * 2.2));
+    margin: 0 auto;
+    /* lets the comet's tail use "cqw" = 1% of this box's width */
+    container-type: inline-size;
+}
+
+/* Everything inside the solar system. It slides and grows when you zoom in. */
+.zoom-layer{
+    position: absolute;
+    inset: 0;
+    transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce){
+    .zoom-layer{
+        transition: none;
+    }
+}
+
+/* ---------- Orbits ---------- */
+
+.orbits{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.orbit{
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.45);
+    stroke-width: 1;
+    /* keep the line 1px thin even though the SVG is stretched */
+    vector-effect: non-scaling-stroke;
+}
+
+/* the unfinished planet's orbit is dotted */
+.orbit-forming{
+    stroke-dasharray: 2 5;
+}
+
+/* the comet's orbit is very faint */
+.orbit-comet{
+    stroke: rgba(255, 255, 255, 0.18);
+    stroke-dasharray: 1 4;
+}
+
+/* ---------- Comet ---------- */
+
+/* a point with no size, placed where the comet is */
+.comet{
+    position: absolute;
+    width: 0;
+    height: 0;
+    z-index: 3;
+}
+
+.comet-head{
+    position: absolute;
+    left: -2.5px;
+    top: -2.5px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* the tail starts at the head and fades out. Its length and direction
+   are set in SolarSystem.jsx */
+.comet-tail{
+    position: absolute;
+    left: 0;
+    top: -1.5px;
+    height: 3px;
+    transform-origin: 0 50%;
+    border-radius: 2px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.85), transparent);
+}
+
+/* ---------- Photos ---------- */
+
+/* Black and white photos, to match the theme. Delete this line for full colour. */
+.solar-system img{
+    filter: grayscale(1);
+}
+
+/* ---------- Sun ---------- */
+
+.sun{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 9%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.sun img{
+    display: block;
+    width: 100%;
+    filter: grayscale(1) brightness(1.4) contrast(1.2);
+    /* cut the photo to a circle, just inside the Sun's edge, so none of the
+       photo's black background shows as a dark ring between the Sun and its glow */
+    clip-path: circle(39.5% at 49.8% 50.7%);
+}
+
+/* a soft glow around the Sun */
+.sun::before{
+    content: "";
+    position: absolute;
+    inset: -60%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.28) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+/* ---------- Planets ---------- */
+
+.planet{
+    position: absolute;
+    min-width: 10px;
+    transform: translate(-50%, -50%);
+    background: none;
+    border: none;
+    padding: 0;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.planet img{
+    display: block;
+    width: 100%;
+}
+
+/* The planets that are not projects are dimmed, so the project planets stand out.
+   Lower the brightness number to make them duller (1 = normal). */
+.planet:not(.clickable) img{
+    filter: grayscale(1) brightness(0.4);
+}
+
+/* ---------- Project planets (the clickable ones) ---------- */
+
+.planet.clickable{
+    /* big enough to tap even though Mercury is tiny */
+    min-width: 28px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+/* a thin ring around the planet when it is picked */
+.planet.clickable.selected{
+    outline: 1px solid #fff;
+    outline-offset: 5px;
+}
+
+.planet.selected{
+    transform: translate(-50%, -50%) scale(1.15);
+}
+
+.has-selection .planet.clickable:not(.selected){
+    opacity: 0.5;
+}
+
+/* ---------- The planet that is still forming ---------- */
+
+.planet.forming{
+    min-width: 40px;
+}
+
+/* a dashed outline: the shape of the planet that is still to come */
+.forming-body{
+    position: relative;
+    display: block;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, 0.5);
+}
+
+/* a soft, blurry ball of dust that gently pulses */
+.forming-core{
+    position: absolute;
+    inset: 28%;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff 0%, var(--dust) 45%, transparent 75%);
+    filter: blur(2px);
+    animation: forming-pulse 3.5s ease-in-out infinite;
+}
+
+/* Each .dust is an invisible spinning box; the speck sits near its edge */
+.dust{
+    position: absolute;
+    inset: 0;
+    animation: dust-swirl var(--swirl) linear infinite;
+}
+
+.dust::before{
+    content: "";
+    position: absolute;
+    top: var(--gap);
+    left: 50%;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.dust:nth-child(2){ --gap: -10%; --swirl: 5s; }
+.dust:nth-child(3){ --gap: 6%;   --swirl: 3.4s; animation-delay: -1s; }
+.dust:nth-child(4){ --gap: -20%; --swirl: 7s;   animation-delay: -3s; }
+.dust:nth-child(5){ --gap: 14%;  --swirl: 2.8s; animation-delay: -2s; }
+.dust:nth-child(6){ --gap: -2%;  --swirl: 4.2s; animation-delay: -2.5s; }
+.dust:nth-child(7){ --gap: -15%; --swirl: 6s;   animation-delay: -4s; }
+
+@keyframes forming-pulse{
+    0%, 100%{ transform: scale(0.8); opacity: 0.6; }
+    50%{ transform: scale(1.15); opacity: 1; }
+}
+
+@keyframes dust-swirl{
+    to{ transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .forming-core,
+    .dust{
+        animation: none;
+    }
+}

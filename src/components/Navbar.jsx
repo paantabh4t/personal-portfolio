@@ -1,48 +1,30 @@
-import { Link } from 'react-router-dom'
 import './Navbar.css'
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { FaBars, FaTimes } from "react-icons/fa"
 
 
-const Navbar = () => {
+// onShowProjects = function from App that zooms in on the first project
+// onGoHome       = function from App that zooms back out to the whole solar system
+const Navbar = ({ onShowProjects, onGoHome }) => {
     const [click, setClick] = useState(false);
     const handleClick = () => setClick(!click);
-
-    const [color, setColor] = useState(false);
-
-    // add the scroll listener once, and remove it when the navbar goes away
-    useEffect(() => {
-        const changeColor = () => {
-            if (window.scrollY >= 100) {
-                setColor(true);
-            } else {
-                setColor(false);
-            }
-        };
-
-        window.addEventListener("scroll", changeColor);
-
-        return () => window.removeEventListener("scroll", changeColor);
-    }, []);
+    // close the mobile menu after a link is clicked
+    const closeMenu = () => setClick(false);
 
 
   return (
-    <div className={color ? "header header-bg" : "header"}>
-        <Link to="/">
-            <h1>Portfolio</h1>
-        </Link>
+    <div className="header">
+        <a href="#projects" className="logo" onClick={() => { closeMenu(); onGoHome(); }}>Portfolio</a>
         <ul className={click ? "nav-menu active":"nav-menu"}>
             <li>
-                <Link to='/'>Home</Link>
+                <a href="#projects" onClick={() => { closeMenu(); onShowProjects(); }}>Projects</a>
             </li>
             <li>
-                <Link to='/project'>Project</Link>
+                {/* opens public/resume.pdf in a new tab */}
+                <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" onClick={closeMenu}>Resume</a>
             </li>
             <li>
-                <Link to='/about'>About</Link>
-            </li>
-            <li>
-                <Link to='/contact'>Contact</Link>
+                <a href="#contact" onClick={closeMenu}>Contact</a>
             </li>
         </ul>
         <div className='hamburger' onClick={handleClick}>

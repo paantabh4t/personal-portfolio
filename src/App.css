@@ -1,0 +1,96 @@
+/* Each panel fills the whole screen */
+.panel{
+    min-height: 100svh;
+    padding: 5rem 1.25rem 2rem;
+}
+
+/* ---------- Panel 1: solar system ---------- */
+
+/* The wide solar system across the screen, with the project details under it */
+.panel-system{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    overflow: hidden;
+    /* lets the arrows be placed against the edges of this panel */
+    position: relative;
+}
+
+/* The arrows at the left and right edge, for moving between project planets */
+.arrow{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--text);
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--dust);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.arrow:hover{
+    background: #fff;
+    color: #000;
+}
+
+.arrow-left{
+    left: 1rem;
+}
+
+.arrow-right{
+    right: 1rem;
+}
+
+/* On wide screens the details float in the bottom-left corner,
+   so the solar system can use the whole panel */
+@media screen and (min-width: 900px) {
+    .panel-system{
+        padding: 4rem 1rem 1rem;
+    }
+    .panel-system .project-panel{
+        position: absolute;
+        left: 2.5rem;
+        bottom: 2rem;
+        padding: 1rem 1.25rem;
+    }
+}
+
+/* ---------- Panel 2: about + get in touch ---------- */
+
+/* the footer sits at the very bottom of this panel */
+.panel-about{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 3rem;
+}
+
+.about-grid{
+    flex: 1;
+    display: grid;
+    gap: 3rem;
+    align-content: center;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+@media screen and (min-width: 760px) {
+    .panel-about{
+        padding: 5rem 3rem 2rem;
+    }
+    .about-grid{
+        grid-template-columns: 1.4fr 1fr;
+        align-items: center;
+        gap: 5rem;
+    }
+}

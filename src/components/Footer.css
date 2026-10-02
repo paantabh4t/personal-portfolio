@@ -1,30 +1,17 @@
 .footer{
     width: 300px;
+    max-width: 80%;
     height: 55px;
-    background-color: rgba(19, 19, 19, 1);
-    position: fixed;
-    z-index: 10;
-    bottom: 0;
-    /* centre the footer horizontally */
-    left: 50%;
-    transform: translateX(-50%);
+    background-color: #000;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    /* centre the footer at the bottom of the page */
+    margin: 0 auto 2rem;
     display: flex;
     justify-content: center;
-    margin-bottom: 1rem;
     border-radius: 2rem;
 }
 
 .social{
     margin-top: 0.8rem;
-    justify-content: center;
     text-align: center;
-}
-
-
-
-@media screen and (max-width: 640px) {
-    .footer{
-        width: 60%;
-        height: 60px;
-    }
 }

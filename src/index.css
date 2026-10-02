@@ -1,21 +1,91 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Syne:wght@600..800&display=swap');
+
+/* Colours and fonts used across the whole site. Change them here. */
+:root{
+  --space: #000000;
+  --nebula: #1c1c1c;
+  --sun: #ffffff;
+  --dust: #a6a6a6;
+  --text: #f2f2f2;
+  --font-display: "Syne", sans-serif;
+  --font-body: "Instrument Sans", sans-serif;
+}
 
 *{
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Outfit", sans-serif; 
+  font-family: var(--font-body);
+}
+
+html{
+  /* glide to a section when a nav link is clicked */
+  scroll-behavior: smooth;
+  /* hide the scroll bar (scrolling still works) - Firefox */
+  scrollbar-width: none;
+}
+
+/* hide the scroll bar - Chrome, Edge, Safari */
+html::-webkit-scrollbar{
+  display: none;
 }
 
 body{
-  background: black;
+  color: var(--text);
+  /* a faint grey glow behind the sun, fading to black */
+  background:
+    radial-gradient(ellipse 80% 50vh at 50% 50vh, var(--nebula) 0%, transparent 100%),
+    var(--space);
+}
+
+/* Two layers of tiny stars that drift slowly at different speeds.
+   They are bigger than the screen and slide with "transform", which the
+   browser can do without repainting - that keeps scrolling smooth. */
+body::before,
+body::after{
+  content: "";
+  position: fixed;
+  inset: -360px;
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+body::before{
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, #fff, transparent),
+    radial-gradient(1px 1px at 120px 90px, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 70px 160px, var(--dust), transparent),
+    radial-gradient(1px 1px at 170px 40px, var(--dust), transparent);
+  background-size: 200px 200px;
+  opacity: 0.7;
+  animation: star-drift-small 72s linear infinite;
+}
+
+body::after{
+  background-image:
+    radial-gradient(2px 2px at 60px 240px, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 260px 110px, var(--sun), transparent),
+    radial-gradient(1.5px 1.5px at 310px 300px, #fff, transparent);
+  background-size: 360px 360px;
+  opacity: 0.5;
+  animation: star-drift 90s linear infinite;
+}
+
+/* each layer moves exactly one tile of stars, so the loop has no visible jump */
+@keyframes star-drift-small{
+  to{ transform: translate(-200px, 200px); }
+}
+
+@keyframes star-drift{
+  to{ transform: translate(-360px, 360px); }
 }
 
 h1,
-h4,
+h2,
 p,
 a {
-  color: white;
+  color: var(--text);
   text-decoration: none;
 }
 
@@ -23,24 +93,48 @@ ul{
   list-style-type: none;
 }
 
+/* show a clear outline when moving around with the keyboard */
+:focus-visible{
+  outline: 2px solid var(--sun);
+  outline-offset: 3px;
+}
+
 .btn {
-  padding: 12px 32px;
+  display: inline-block;
+  padding: 12px 28px;
   font-size: 1rem;
-  text-transform: uppercase;
-  background: rgb(248, 217, 15);
-  color: #222;
-  border: 1px solid #fff;
+  background: var(--sun);
+  color: var(--space);
+  border: 1px solid var(--sun);
+  border-radius: 999px;
   font-weight: 600;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .btn-light {
   background: transparent;
-  color: #fff;
+  color: var(--text);
+  border-color: var(--dust);
 }
 
 .btn:hover{
-  background: rgba(255, 255, 255, 0.2);
+  background: transparent;
+  border-color: #fff;
   color: #fff;
-  transition: 0.3s;
+}
+
+.btn-light:hover{
+  background: #fff;
+  color: #000;
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{
+    scroll-behavior: auto;
+  }
+  body::before,
+  body::after{
+    animation: none;
+  }
 }

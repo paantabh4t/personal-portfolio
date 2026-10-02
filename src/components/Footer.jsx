@@ -1,18 +1,26 @@
 import "./Footer.css"
-import { FaFacebook, FaLinkedin, FaTwitter } from "react-icons/fa"
-import React from 'react'
+import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa"
+
+// Your profile links
+const github = "https://github.com/paantabh4t"
+const linkedin = "https://www.linkedin.com/in/anubhav-biswas"
+const instagram = "https://www.instagram.com/paantabh4t"
+
+const iconStyle = {color: "#fff", margin: "0 1rem 0 1rem"}
 
 const Footer = () => {
   return (
     <div className="footer">
       <div className="social">
-        <FaFacebook size={30} style={{color: "#fff", margin: "0 1rem 0 1rem"}}/>
-        <FaTwitter size={30} style={{color: "#fff", margin: "0 1rem 0 1rem"}}/>
-        <a 
-        href="https://www.linkedin.com/in/anubhav-biswas/" 
-        target="_blank" 
-        rel="noopener noreferrer">
-          <FaLinkedin size={30} style={{color: "#fff", margin: "0 1rem 0 1rem"}}/>
+        {/* aria-label tells screen readers where each icon goes */}
+        <a href={github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <FaGithub size={30} style={iconStyle}/>
+        </a>
+        <a href={linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <FaLinkedin size={30} style={iconStyle}/>
+        </a>
+        <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <FaInstagram size={30} style={iconStyle}/>
         </a>
       </div>
     </div>

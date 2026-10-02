@@ -1,0 +1,59 @@
+.project-panel{
+    position: relative;
+    z-index: 5;
+    max-width: 26rem;
+    padding-left: 1.25rem;
+    border-left: 3px solid var(--dust);
+    /* a dark backing so a zoomed-in solar system doesn't show through the text */
+    background: rgba(0, 0, 0, 0.7);
+    /* slides in from the left each time a different planet is picked */
+    animation: panel-in 0.6s ease-out;
+}
+
+@keyframes panel-in{
+    from{
+        opacity: 0;
+        transform: translateX(-24px);
+    }
+}
+
+.back-button{
+    margin-top: 1.25rem;
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--dust);
+    font-size: 0.95rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    cursor: pointer;
+}
+
+.back-button:hover{
+    color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce){
+    .project-panel{
+        animation: none;
+    }
+}
+
+.project-panel h2{
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+}
+
+.project-panel p{
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.panel-links{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
